@@ -26,7 +26,7 @@ var lengthOfLongestSubstring = function (s) {
     return maxLength
 };
 
-//方法二(内存占用低)  
+//方法二(内存占用低)  动态规划，待理解
 var lengthOfLongestSubstring = function (s) {
     if (s.length == 0) return 0;
     let dp = 1;
