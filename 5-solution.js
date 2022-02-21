@@ -1,6 +1,6 @@
 /**
  * @param {string} s
- * @return
+ * @return s
  */
 
 //方法一、认为较为复杂需要优化
