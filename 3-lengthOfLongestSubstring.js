@@ -5,44 +5,66 @@
  * @return {number}
  */
 
-const s = 'abcad';
+const s = "abcad";
 
 //方法一 遍历字符串 每次存储最长子串 返回它的length
 var lengthOfLongestSubstring = function (s) {
-    if (s.length == 0) return 0;
-    let substringArr = []; //存储非重复字符串的数组
-    let maxLength = 0; //最长子串长度
-    const orginArr = s.split(''); //分割字符串
-    for (let i = 0; i < orginArr.length; ++i) {
-        const index = substringArr.indexOf(orginArr[i]);
-        console.log('index', index);
-        if (substringArr.length > 0 && index !== -1) {
-            substringArr = substringArr.splice(index + 1, substringArr.length - index - 1);
-        }
-        substringArr.push(orginArr[i]);
-        console.log('substringArr', substringArr);
-        maxLength = Math.max(maxLength, substringArr.length);
+  if (s.length == 0) return 0;
+  let substringArr = []; //存储非重复字符串的数组
+  let maxLength = 0; //最长子串长度
+  const orginArr = s.split(""); //分割字符串
+  for (let i = 0; i < orginArr.length; ++i) {
+    const index = substringArr.indexOf(orginArr[i]);
+    console.log("index", index);
+    if (substringArr.length > 0 && index !== -1) {
+      substringArr = substringArr.splice(
+        index + 1,
+        substringArr.length - index - 1
+      );
     }
-    return maxLength
+    substringArr.push(orginArr[i]);
+    console.log("substringArr", substringArr);
+    maxLength = Math.max(maxLength, substringArr.length);
+  }
+  return maxLength;
 };
 
 //方法二(内存占用低)  动态规划，待理解
 var lengthOfLongestSubstring = function (s) {
-    if (s.length == 0) return 0;
-    let dp = 1;
-    let rlt = 1;
-    for (let i = 1; i < s.length; ++i) {
-        let end = i - dp;
-        ++dp; //得到最大边界
-        for (let j = i - 1; j >= end; --j) {
-            if (s[i] == s[j]) {
-                dp = i - j;
-                break;
-            }
-        }
-        rlt = Math.max(rlt, dp);
+  if (s.length == 0) return 0;
+  let dp = 1;
+  let rlt = 1;
+  for (let i = 1; i < s.length; ++i) {
+    let end = i - dp;
+    ++dp; //得到最大边界
+    for (let j = i - 1; j >= end; --j) {
+      if (s[i] == s[j]) {
+        dp = i - j;
+        break;
+      }
     }
-    return rlt;
-}
+    rlt = Math.max(rlt, dp);
+  }
+  return rlt;
+};
+
+//活动窗口
+var lengthOfLongestSubstring = function (s) {
+  if (!s.length) return 0;
+  let max = 1;
+  let curStr = s[0];
+  let left = 0;
+  let right = 1;
+  for (right; right < s.length; right++) {
+    if (curStr.indexOf(s[right]) === -1) {
+      curStr += s[right];
+      max = Math.max(curStr.length, max);
+    } else {
+      left += curStr.indexOf(s[right]) + 1;
+      curStr = s.slice(left, right + 1);
+    }
+  }
+  return max;
+};
 const maxLength = lengthOfLongestSubstring(s);
 console.log(maxLength);
